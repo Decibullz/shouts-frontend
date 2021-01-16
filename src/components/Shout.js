@@ -14,9 +14,10 @@ import MyButton from "../util/MyButton";
 import ChatIcon from "@material-ui/icons/Chat";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
-
+import DeleteShout from "./DeleteShout";
 const styles = {
   card: {
+    position: "relative",
     display: "flex",
     marginBottom: 20,
   },
@@ -59,7 +60,10 @@ export class Shout extends Component {
         likeCount,
         commentCount,
       },
-      user: { authenticated },
+      user: {
+        authenticated,
+        credentials: { handle },
+      },
     } = this.props;
     const likeButton = !authenticated ? (
       <Link to="/login">
@@ -76,6 +80,10 @@ export class Shout extends Component {
         <FavoriteBorder color="primary" />
       </MyButton>
     );
+    const deleteButton =
+      authenticated && userHandle === handle ? (
+        <DeleteShout shoutId={shoutId} />
+      ) : null;
     return (
       <Card className={classes.card}>
         <CardMedia
@@ -92,6 +100,7 @@ export class Shout extends Component {
           >
             {userHandle}
           </Typography>
+          {deleteButton}
           <Typography variant="body2" color="textSecondary">
             {dayjs(createdAt).fromNow()}
           </Typography>
