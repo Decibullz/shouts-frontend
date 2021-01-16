@@ -1,4 +1,10 @@
-import { SET_SHOUTS, LIKE_SHOUT, UNLIKE_SHOUT, LOADING_DATA } from "../types";
+import {
+  SET_SHOUTS,
+  LIKE_SHOUT,
+  UNLIKE_SHOUT,
+  LOADING_DATA,
+  DELETE_SHOUT,
+} from "../types";
 
 const initialState = {
   shouts: [],
@@ -7,6 +13,7 @@ const initialState = {
 };
 
 export default function (state = initialState, action) {
+  let index;
   switch (action.type) {
     case LOADING_DATA:
       return {
@@ -21,10 +28,18 @@ export default function (state = initialState, action) {
       };
     case LIKE_SHOUT:
     case UNLIKE_SHOUT:
-      let index = state.shouts.findIndex(
+      index = state.shouts.findIndex(
         (shout) => shout.shoutId === action.payload.shoutId
       );
       state.shouts[index] = action.payload;
+      return {
+        ...state,
+      };
+    case DELETE_SHOUT:
+      index = state.shouts.findIndex(
+        (shout) => shout.shoutId === action.payload
+      );
+      state.shouts.splice(index, 1);
       return {
         ...state,
       };
