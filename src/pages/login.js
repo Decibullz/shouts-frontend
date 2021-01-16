@@ -1,16 +1,18 @@
 import React, { Component } from "react";
 import withStyles from "@material-ui/core/styles/withStyles";
 import PropTypes from "prop-types";
-import appIcon from "../images/icon.png";
-import axios from "axios";
+import AppIcon from "../images/icon.png";
 import { Link } from "react-router-dom";
 
-// Material UI
+// MUI Stuff
 import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import CircularProgress from "@material-ui/core/CircularProgress";
+// Redux stuff
+import { connect } from "react-redux";
+import { loginUser } from "../redux/actions/userActions";
 
 const styles = {
   form: {
@@ -39,57 +41,46 @@ const styles = {
   },
 };
 
-export class login extends Component {
+class login extends Component {
   constructor() {
     super();
     this.state = {
       email: "",
       password: "",
-      loading: false,
       errors: {},
     };
   }
-
-  handleSubmit = (evt) => {
-    evt.preventDefault();
-    this.setState({
-      loading: true,
-    });
+  // this component is outdated replacing with componentDidUpdate breaks errors
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.UI.errors) {
+      this.setState({ errors: nextProps.UI.errors });
+    }
+  }
+  handleSubmit = (event) => {
+    event.preventDefault();
     const userData = {
       email: this.state.email,
       password: this.state.password,
     };
-    axios
-      .post("/login", userData)
-      .then((res) => {
-        console.log(res.data);
-        localStorage.setItem("FBIdToken", `Bearer ${res.data.token}`);
-        this.setState({
-          loading: false,
-        });
-        this.props.history.push("/");
-      })
-      .catch((err) => {
-        this.setState({
-          errors: err.response.data,
-          loading: false,
-        });
-      });
+    this.props.loginUser(userData, this.props.history);
   };
-
-  handleChange = (evt) => {
+  handleChange = (event) => {
     this.setState({
-      [evt.target.name]: evt.target.value,
+      [event.target.name]: event.target.value,
     });
   };
   render() {
-    const { classes } = this.props;
-    const { errors, loading } = this.state;
+    const {
+      classes,
+      UI: { loading },
+    } = this.props;
+    const { errors } = this.state;
+
     return (
       <Grid container className={classes.form}>
         <Grid item sm />
         <Grid item sm>
-          <img src={appIcon} alt="SHOUT!" className={classes.image}></img>
+          <img src={AppIcon} alt="monkey" className={classes.image} />
           <Typography variant="h2" className={classes.pageTitle}>
             Login
           </Typography>
@@ -113,7 +104,7 @@ export class login extends Component {
               label="Password"
               className={classes.textField}
               helperText={errors.password}
-              error={errors.email ? true : false}
+              error={errors.password ? true : false}
               value={this.state.password}
               onChange={this.handleChange}
               fullWidth
@@ -132,12 +123,12 @@ export class login extends Component {
             >
               Login
               {loading && (
-                <CircularProgress size={20} className={classes.progress} />
+                <CircularProgress size={30} className={classes.progress} />
               )}
             </Button>
             <br />
             <small>
-              Don't have an account? Sign Up <Link to="/signup">here</Link>
+              Dont have an account ? Signup <Link to="/signup">here</Link>
             </small>
           </form>
         </Grid>
@@ -146,8 +137,24 @@ export class login extends Component {
     );
   }
 }
+
 login.propTypes = {
   classes: PropTypes.object.isRequired,
+  loginUser: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired,
+  UI: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(login);
+const mapStateToProps = (state) => ({
+  user: state.user,
+  UI: state.UI,
+});
+
+const mapActionsToProps = {
+  loginUser,
+};
+
+export default connect(
+  mapStateToProps,
+  mapActionsToProps
+)(withStyles(styles)(login));
