@@ -50,7 +50,7 @@ class login extends Component {
       errors: {},
     };
   }
-  // this component is outdated replacing with componentDidUpdate breaks errors
+  // componentWillReceiveProps is outdated replacing with componentDidUpdate breaks errors
   componentWillReceiveProps(nextProps) {
     if (nextProps.UI.errors) {
       this.setState({ errors: nextProps.UI.errors });
