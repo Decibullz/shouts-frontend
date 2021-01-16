@@ -1,4 +1,10 @@
-import { SET_SHOUTS, LOADING_DATA, LIKE_SHOUT, UNLIKE_SHOUT } from "../types";
+import {
+  SET_SHOUTS,
+  LOADING_DATA,
+  LIKE_SHOUT,
+  UNLIKE_SHOUT,
+  DELETE_SHOUT,
+} from "../types";
 import axios from "axios";
 
 // get all shouts
@@ -42,6 +48,15 @@ export const unlikeShout = (shoutId) => (dispatch) => {
         type: UNLIKE_SHOUT,
         payload: res.data,
       });
+    })
+    .catch((err) => console.log(err));
+};
+
+export const deleteShout = (shoutId) => (dispatch) => {
+  axios
+    .delete(`/shout/${shoutId}`)
+    .then(() => {
+      dispatch({ type: DELETE_SHOUT, payload: shoutId });
     })
     .catch((err) => console.log(err));
 };
