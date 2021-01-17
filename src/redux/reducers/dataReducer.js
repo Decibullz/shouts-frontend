@@ -39,6 +39,9 @@ export default function (state = initialState, action) {
         (shout) => shout.shoutId === action.payload.shoutId
       );
       state.shouts[index] = action.payload;
+      if (state.shout.shoutId === action.payload.shoutId) {
+        state.shout = action.payload;
+      }
       return {
         ...state,
       };
