@@ -6,6 +6,7 @@ import {
   LIKE_SHOUT,
   UNLIKE_SHOUT,
   SET_SHOUT,
+  SUBMIT_COMMENT,
 } from "../types";
 
 const initialState = {
@@ -57,6 +58,14 @@ export default function (state = initialState, action) {
       return {
         ...state,
         shouts: [action.payload, ...state.shouts],
+      };
+    case SUBMIT_COMMENT:
+      return {
+        ...state,
+        shout: {
+          ...state.shout,
+          comments: [action.payload, ...state.shout.comments],
+        },
       };
     default:
       return state;
