@@ -5,6 +5,7 @@ import {
   DELETE_SHOUT,
   LIKE_SHOUT,
   UNLIKE_SHOUT,
+  SET_SHOUT,
 } from "../types";
 
 const initialState = {
@@ -26,6 +27,11 @@ export default function (state = initialState, action) {
         ...state,
         shouts: action.payload,
         loading: false,
+      };
+    case SET_SHOUT:
+      return {
+        ...state,
+        shout: action.payload,
       };
     case LIKE_SHOUT:
     case UNLIKE_SHOUT:
