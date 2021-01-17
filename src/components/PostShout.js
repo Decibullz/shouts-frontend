@@ -14,19 +14,21 @@ import AddIcon from "@material-ui/icons/Add";
 import CloseIcon from "@material-ui/icons/Close";
 // REDUX
 import { connect } from "react-redux";
-import { postShout } from "../redux/actions/dataActions";
+import { postShout, clearErrors } from "../redux/actions/dataActions";
 
 const styles = {
   submitButton: {
     position: "relative",
+    float: "right",
+    marginTop: 15,
   },
   progressSpinner: {
     position: "absolute",
   },
   closeButton: {
     position: "absolute",
-    left: "90%",
-    top: "10%",
+    left: "91%",
+    top: "4%",
   },
 };
 
@@ -43,8 +45,7 @@ class PostShout extends Component {
       });
     }
     if (!nextProps.UI.errors && !nextProps.UI.loading) {
-      this.setState({ body: "" });
-      this.handleClose();
+      this.setState({ body: "", open: false, errors: {} });
     }
   }
   handleOpen = () => {
@@ -53,6 +54,7 @@ class PostShout extends Component {
     });
   };
   handleClose = () => {
+    this.props.clearErrors();
     this.setState({
       open: false,
       errors: {},
@@ -130,12 +132,13 @@ class PostShout extends Component {
 
 PostShout.propTypes = {
   postShout: PropTypes.func.isRequired,
+  clearErrors: PropTypes.func.isRequired,
   UI: PropTypes.object.isRequired,
 };
 const mapStateToProps = (state) => ({
   UI: state.UI,
 });
 
-export default connect(mapStateToProps, { postShout })(
+export default connect(mapStateToProps, { postShout, clearErrors })(
   withStyles(styles)(PostShout)
 );
