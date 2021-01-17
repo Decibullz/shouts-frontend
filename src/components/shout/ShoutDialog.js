@@ -5,6 +5,7 @@ import dayjs from "dayjs";
 import { Link } from "react-router-dom";
 import LikeButton from "./LikeButton";
 import Comments from "./Comments";
+import CommentForm from "./CommentForm";
 // Material UI
 import withStyles from "@material-ui/core/styles/withStyles";
 import Dialog from "@material-ui/core/Dialog";
@@ -18,7 +19,7 @@ import UnfoldMore from "@material-ui/icons/UnfoldMore";
 import ChatIcon from "@material-ui/icons/Chat";
 // REDUX
 import { connect } from "react-redux";
-import { getShout } from "../../redux/actions/dataActions";
+import { getShout, clearErrors } from "../../redux/actions/dataActions";
 
 const styles = {
   invisibleSeparator: {
@@ -67,6 +68,7 @@ class ShoutDialog extends Component {
     this.setState({
       open: false,
     });
+    this.props.clearErrors();
   };
   render() {
     const {
@@ -112,9 +114,10 @@ class ShoutDialog extends Component {
           <MyButton tip="Comments">
             <ChatIcon color="primary" />
           </MyButton>
-          <hr className={classes.visibleSeparator} />
           <span>{commentCount} Comments</span>
         </Grid>
+        <hr className={classes.visibleSeparator} />
+        <CommentForm shoutId={shoutId} />
         <Comments comments={comments} />
       </Grid>
     );
@@ -149,6 +152,7 @@ class ShoutDialog extends Component {
   }
 }
 ShoutDialog.propTypes = {
+  clearErrors: PropTypes.func.isRequired,
   getShout: PropTypes.func.isRequired,
   shoutId: PropTypes.string.isRequired,
   userHandle: PropTypes.string.isRequired,
@@ -163,6 +167,7 @@ const mapStateToProps = (state) => ({
 
 const mapActionsToProps = {
   getShout,
+  clearErrors,
 };
 
 export default connect(
