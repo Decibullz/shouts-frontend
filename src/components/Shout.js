@@ -15,6 +15,7 @@ import ChatIcon from "@material-ui/icons/Chat";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import FavoriteBorder from "@material-ui/icons/FavoriteBorder";
 import DeleteShout from "./DeleteShout";
+import ShoutDialog from "./ShoutDialog";
 const styles = {
   card: {
     position: "relative",
@@ -111,6 +112,7 @@ export class Shout extends Component {
             <ChatIcon color="primary" />
           </MyButton>
           <span>{commentCount} Comments</span>
+          <ShoutDialog shoutId={shoutId} userHandle={userHandle} />
         </CardContent>
       </Card>
     );
