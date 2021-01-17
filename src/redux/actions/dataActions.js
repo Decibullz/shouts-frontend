@@ -10,6 +10,7 @@ import {
   LOADING_UI,
   SET_SHOUT,
   STOP_LOADING_UI,
+  SUBMIT_COMMENT,
 } from "../types";
 import axios from "axios";
 
@@ -56,7 +57,7 @@ export const postShout = (newShout) => (dispatch) => {
         type: POST_SHOUT,
         payload: res.data,
       });
-      dispatch({ type: CLEAR_ERRORS });
+      dispatch(clearErrors());
     })
     .catch((err) => {
       dispatch({
@@ -91,7 +92,23 @@ export const unlikeShout = (shoutId) => (dispatch) => {
     })
     .catch((err) => console.log(err));
 };
-
+export const submitComment = (shoutId, commentData) => (dispatch) => {
+  axios
+    .post(`/shout/${shoutId}/comment`, commentData)
+    .then((res) => {
+      dispatch({
+        type: SUBMIT_COMMENT,
+        payload: res.data,
+      });
+      dispatch(clearErrors());
+    })
+    .catch((err) => {
+      dispatch({
+        type: SET_ERRORS,
+        payload: err.response.data,
+      });
+    });
+};
 export const deleteShout = (shoutId) => (dispatch) => {
   axios
     .delete(`/shout/${shoutId}`)
