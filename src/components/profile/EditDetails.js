@@ -18,11 +18,12 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 // icon
 import EditIcon from "@material-ui/icons/Edit";
 
-const styles = {
+const styles = (theme) => ({
+  ...theme.spreadThis,
   button: {
     float: "right",
   },
-};
+});
 class EditDetails extends Component {
   state = {
     bio: "",

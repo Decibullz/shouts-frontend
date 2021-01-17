@@ -21,21 +21,13 @@ import ChatIcon from "@material-ui/icons/Chat";
 import { connect } from "react-redux";
 import { getShout, clearErrors } from "../../redux/actions/dataActions";
 
-const styles = {
-  invisibleSeparator: {
-    border: "none",
-    margin: 4,
-  },
+const styles = (theme) => ({
+  ...theme.spreadThis,
   profileImage: {
-    width: 200,
+    maxWidth: 200,
     height: 200,
-    objectFit: "center",
     borderRadius: "50%",
-  },
-  visibleSeparator: {
-    borderBottom: "1px solid rgba(0,0,0,0.1",
-    width: "100%",
-    marginBottom: 20,
+    objectFit: "cover",
   },
   dialogContent: {
     padding: 20,
@@ -44,15 +36,16 @@ const styles = {
     position: "absolute",
     left: "90%",
   },
-  expandbutton: {
+  expandButton: {
     position: "absolute",
     left: "90%",
   },
   spinnerDiv: {
     textAlign: "center",
-    margin: "50 0",
+    marginTop: 50,
+    marginBottom: 50,
   },
-};
+});
 
 class ShoutDialog extends Component {
   state = {

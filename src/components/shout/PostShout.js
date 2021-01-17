@@ -16,11 +16,12 @@ import CloseIcon from "@material-ui/icons/Close";
 import { connect } from "react-redux";
 import { postShout, clearErrors } from "../../redux/actions/dataActions";
 
-const styles = {
+const styles = (theme) => ({
+  ...theme.spreadThis,
   submitButton: {
     position: "relative",
     float: "right",
-    marginTop: 15,
+    marginTop: 10,
   },
   progressSpinner: {
     position: "absolute",
@@ -28,9 +29,9 @@ const styles = {
   closeButton: {
     position: "absolute",
     left: "91%",
-    top: "4%",
+    top: "6%",
   },
-};
+});
 
 class PostShout extends Component {
   state = {
