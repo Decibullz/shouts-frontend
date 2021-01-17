@@ -1,9 +1,13 @@
 import {
   SET_SHOUTS,
   LOADING_DATA,
+  POST_SHOUT,
+  DELETE_SHOUT,
   LIKE_SHOUT,
   UNLIKE_SHOUT,
-  DELETE_SHOUT,
+  SET_ERRORS,
+  CLEAR_ERRORS,
+  LOADING_UI,
 } from "../types";
 import axios from "axios";
 
@@ -22,6 +26,25 @@ export const getShouts = () => (dispatch) => {
       dispatch({
         type: SET_SHOUTS,
         payload: [],
+      });
+    });
+};
+// Post a Shout!
+export const postShout = (newShout) => (dispatch) => {
+  dispatch({ type: LOADING_UI });
+  axios
+    .post("/shout", newShout)
+    .then((res) => {
+      dispatch({
+        type: POST_SHOUT,
+        payload: res.data,
+      });
+      dispatch({ type: CLEAR_ERRORS });
+    })
+    .catch((err) => {
+      dispatch({
+        type: SET_ERRORS,
+        payload: err.response.data,
       });
     });
 };
