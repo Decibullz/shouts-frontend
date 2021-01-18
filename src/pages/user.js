@@ -6,7 +6,6 @@ import StaticProfile from "../components/profile/StaticProfile";
 import Grid from "@material-ui/core/Grid";
 
 import ShoutSkeleton from "../util/ShoutSkeleton";
-import ProfileSkeleton from "../util/ProfileSkeleton";
 
 import { connect } from "react-redux";
 import { getUserData } from "../redux/actions/dataActions";
