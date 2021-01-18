@@ -5,6 +5,9 @@ import Shout from "../components/shout/Shout";
 import StaticProfile from "../components/profile/StaticProfile";
 import Grid from "@material-ui/core/Grid";
 
+import ShoutSkeleton from "../util/ShoutSkeleton";
+import ProfileSkeleton from "../util/ProfileSkeleton";
+
 import { connect } from "react-redux";
 import { getUserData } from "../redux/actions/dataActions";
 
@@ -34,7 +37,7 @@ class user extends Component {
     const { shoutIdParam } = this.state;
 
     const shoutsMarkup = loading ? (
-      <p> Loading Data ....</p>
+      <ShoutSkeleton />
     ) : shouts === null ? (
       <p>No Shouts! from this user</p>
     ) : !shoutIdParam ? (

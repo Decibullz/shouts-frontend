@@ -3,6 +3,8 @@ import Grid from "@material-ui/core/Grid";
 import PropTypes from "prop-types";
 
 import Shout from "../components/shout/Shout";
+import ShoutSkeleton from "../util/ShoutSkeleton";
+
 import Profile from "../components/profile/Profile";
 
 import { connect } from "react-redux";
@@ -20,7 +22,7 @@ export class home extends Component {
     let recentShoutsMarkup = !loading ? (
       shouts.map((shouts, idx) => <Shout key={idx} shout={shouts} />)
     ) : (
-      <p>Loading...</p>
+      <ShoutSkeleton />
     );
     return (
       <Grid container spacing={10}>
